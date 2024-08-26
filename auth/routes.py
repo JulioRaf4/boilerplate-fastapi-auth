@@ -8,6 +8,7 @@ from db.models import UserModel
 
 router = APIRouter()
 
+
 @router.post("/login", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user_collection = get_user_collection()
@@ -21,9 +22,11 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     access_token = create_access_token(data={"sub": user["email"]})
     return {"access_token": access_token, "token_type": "bearer"}
 
+
 @router.get("/logout", response_model=dict)
 async def logout(current_user: dict = Depends(get_current_user)):
     return {"message": f"User {current_user['email']} successfully logged out"}
+
 
 @router.post("/password-recovery")
 async def password_recovery(email: str):
@@ -36,6 +39,7 @@ async def password_recovery(email: str):
         )
     # Send password recovery email (implementation depends on your strategy)
     return {"message": "Password recovery email sent"}
+
 
 @router.post("/register", response_model=UserOut)
 async def register(user: UserCreate):

@@ -3,6 +3,7 @@ from bson import ObjectId
 from pydantic import BaseModel, Field, EmailStr, GetJsonSchemaHandler
 from pydantic_core import CoreSchema
 
+
 class PyObjectId(ObjectId):
     @classmethod
     def __get_validators__(cls):
@@ -20,6 +21,7 @@ class PyObjectId(ObjectId):
     ) -> Dict[str, Any]:
         return {"type": "string", "example": "60c72b2f9b1e8a12b4f5cafe"}
 
+
 class UserOut(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     email: EmailStr
@@ -30,12 +32,15 @@ class UserOut(BaseModel):
         json_encoders = {ObjectId: str}
         arbitrary_types_allowed = True
 
+
 class Token(BaseModel):
     access_token: str
     token_type: str
 
+
 class TokenData(BaseModel):
     email: str | None = None
+
 
 class UserCreate(BaseModel):
     email: EmailStr
